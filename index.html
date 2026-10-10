@@ -46,10 +46,10 @@
   <body>
 
     <div class="scratch-container">
-      <!-- The Book Cover (Revealed underneath) -->
-      <img class="reveal-image" src="photo_2026-10-10_15-57-57.jpg" alt="Book Cover">[cite: 3]
+      <!-- Image #2: The Book Cover (Revealed underneath) -->
+      <img class="reveal-image" src="photo_2026-10-10_15-57-57.jpg" alt="Book Cover">
       
-      <!-- Canvas for The Scratched Envelope -->
+      <!-- Canvas for Image #1: The Scratched Envelope -->
       <canvas id="scratchCanvas"></canvas>
     </div>
 
@@ -58,9 +58,10 @@
       const ctx = canvas.getContext('2d');
 
       const fgImage = new Image();
-      fgImage.src = 'photo_2026-10-09_20-27-38.jpg';[cite: 2]
+      fgImage.src = 'photo_2026-10-09_20-27-38.jpg'; // The envelope image to scratch
 
       fgImage.onload = function() {
+        // Match canvas resolution to the image natural dimensions
         canvas.width = fgImage.naturalWidth;
         canvas.height = fgImage.naturalHeight;
         ctx.drawImage(fgImage, 0, 0);

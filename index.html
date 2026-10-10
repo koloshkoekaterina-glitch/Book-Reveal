@@ -21,7 +21,7 @@
         max-width: 100%;
         user-select: none;
       }
-      /* The revealed image sits underneath */
+      /* UNDERNEATH: The Book Cover Image */
       .reveal-image {
         position: absolute;
         top: 0;
@@ -31,7 +31,7 @@
         display: block;
         z-index: 1;
       }
-      /* The canvas sits on top and acts as the scratch layer */
+      /* ON TOP: The Scratched Envelope Canvas */
       canvas {
         position: relative;
         z-index: 2;
@@ -46,10 +46,10 @@
   <body>
 
     <div class="scratch-container">
-      <!-- Image #2: The Book Cover (Revealed underneath) -->
-      <img class="reveal-image" src="photo_2026-10-10_15-57-57.jpg" alt="Book Cover">
+      <!-- 1. Book Cover sits underneath -->
+      <img class="reveal-image" src="photo_2026-10-10_15-57-57.jpg" alt="Book Cover"[cite: 3]>
       
-      <!-- Canvas for Image #1: The Scratched Envelope -->
+      <!-- 2. Envelope sits on top as the scratch layer -->
       <canvas id="scratchCanvas"></canvas>
     </div>
 
@@ -58,10 +58,9 @@
       const ctx = canvas.getContext('2d');
 
       const fgImage = new Image();
-      fgImage.src = 'photo_2026-10-09_20-27-38.jpg'; // The envelope image to scratch
+      fgImage.src = 'photo_2026-10-09_20-27-38.jpg'; // The envelope image on top[cite: 2]
 
       fgImage.onload = function() {
-        // Match canvas resolution to the image natural dimensions
         canvas.width = fgImage.naturalWidth;
         canvas.height = fgImage.naturalHeight;
         ctx.drawImage(fgImage, 0, 0);
@@ -95,7 +94,7 @@
 
         ctx.globalCompositeOperation = 'destination-out';
         ctx.beginPath();
-        ctx.arc(pos.x, pos.y, 90, 0, Math.PI * 2, false);
+        ctx.arc(pos.x, pos.y, 90, 0, Math.PI * 2, false); // Brush size set to 90
         ctx.fill();
       }
 

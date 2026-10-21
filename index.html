@@ -15,12 +15,11 @@
         font-family: Arial, sans-serif;
         overflow: hidden;
         position: relative;
-        /* Глибокий океанський базовий колір */
-        background: #021428;
+        background: #000;
       }
 
-      /* Контейнер для реалістичного морського фону */
-      .ocean {
+      /* Фонове відео з реальним морем */
+      .ocean-video-container {
         position: absolute;
         top: 0;
         left: 0;
@@ -31,67 +30,35 @@
         pointer-events: none;
       }
 
-      /* Шар повільних переливчастих хвиль */
-      .water-layer {
+      .ocean-video-container video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
         position: absolute;
-        top: -50%;
-        left: -50%;
-        right: -50%;
-        bottom: -50%;
-        width: 200%;
-        height: 200%;
-        background: 
-          /* Сонячні відблиски на поверхні */
-          radial-gradient(ellipse at 30% 20%, rgba(255, 220, 130, 0.25) 0%, transparent 40%),
-          radial-gradient(ellipse at 70% 60%, rgba(100, 210, 255, 0.2) 0%, transparent 50%),
-          /* Хвилясті переливи води */
-          linear-gradient(120deg, #021428 0%, #0a3d62 30%, #1e5f74 50%, #0c2d48 70%, #021428 100%);
-        background-size: 100% 100%, 100% 100%, 200% 200%;
-        animation: waveMotion 25s ease-in-out infinite alternate;
-        z-index: 1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        filter: brightness(0.85) contrast(1.1); /* Налаштування кольору під гаму вашого фото */
       }
 
-      /* Додатковий шар для ефекту мерехтіння сонця */
-      .sun-glimmer {
+      /* Легкий шар для сонячного мерехтіння поверх відео */
+      .shimmer-overlay {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 230, 150, 0.1) 30%, transparent 70%);
-        opacity: 0.5;
+        background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.25) 0%, transparent 70%);
+        opacity: 0.6;
         mix-blend-mode: overlay;
-        animation: sunShimmer 6s ease-in-out infinite alternate;
-        z-index: 2;
+        animation: sunGlimmer 5s ease-in-out infinite alternate;
+        z-index: 1;
+        pointer-events: none;
       }
 
-      /* Плавний рух хвиль */
-      @keyframes waveMotion {
-        0% {
-          transform: translate(0, 0) scale(1) rotate(0deg);
-        }
-        50% {
-          transform: translate(-3%, -2%) scale(1.05) rotate(1deg);
-        }
-        100% {
-          transform: translate(3%, 3%) scale(1) rotate(-1deg);
-        }
-      }
-
-      /* Мерехтіння від сонця */
-      @keyframes sunShimmer {
-        0% {
-          opacity: 0.3;
-          transform: scale(0.98) translateY(0);
-        }
-        50% {
-          opacity: 0.7;
-          transform: scale(1.02) translateY(-10px);
-        }
-        100% {
-          opacity: 0.4;
-          transform: scale(1) translateY(5px);
-        }
+      @keyframes sunGlimmer {
+        0% { opacity: 0.4; transform: scale(1); }
+        100% { opacity: 0.8; transform: scale(1.03); }
       }
 
       /* Основна картка */
@@ -101,7 +68,7 @@
         max-width: 90%;
         user-select: none;
         z-index: 10;
-        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8);
         border-radius: 8px;
         overflow: hidden;
       }
@@ -131,10 +98,13 @@
   </head>
   <body>
 
-    <!-- Живий морський фон із сонячним мерехтінням -->
-    <div class="ocean">
-      <div class="water-layer"></div>
-      <div class="sun-glimmer"></div>
+    <!-- Живе фонове відео реального моря -->
+    <div class="ocean-video-container">
+      <video autoplay muted loop playsinline>
+        <!-- Ви можете змінити посилання на будь-яке інше відео з вільних фотостоків або завантажити своє -->
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-sea-waves-in-the-sun-41520-large.mp4" type="video/mp4">
+      </video>
+      <div class="shimmer-overlay"></div>
     </div>
 
     <!-- Основна картка зі стиранням -->
@@ -192,7 +162,7 @@
       }
 
       // Mouse Events
-      canvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
+      canvas.addEventListener('mousedown', (e) => { isDrawing = andTrue = true; isDrawing = true; scratch(e); });
       canvas.addEventListener('mousemove', scratch);
       window.addEventListener('mouseup', () => { isDrawing = false; });
 

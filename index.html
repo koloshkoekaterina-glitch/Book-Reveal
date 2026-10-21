@@ -8,19 +8,90 @@
       body {
         margin: 0;
         padding: 0;
-        background: #ffffff;
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 100vh;
         font-family: Arial, sans-serif;
+        overflow: hidden;
+        position: relative;
+        /* Глибокий морський градієнт на фоні */
+        background: linear-gradient(180deg, #0b1d3a 0%, #020b18 100%);
       }
+
+      /* Контейнер для морських хвиль */
+      .ocean {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .wave {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 200%;
+        height: 100%;
+        background-repeat: repeat-x;
+        transform-origin: center bottom;
+      }
+
+      /* Перший шар хвиль */
+      .wave1 {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0 C150,90 350,-40 500,40 C650,120 900,20 1200,60 L1200,120 L0,120 Z" fill="rgba(0, 150, 214, 0.25)"/></svg>');
+        background-size: 1200px 180px;
+        animation: moveWave 12s linear infinite;
+        z-index: 1;
+      }
+
+      /* Другий шар хвиль (зворотний рух) */
+      .wave2 {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,30 C200,100 450,0 700,70 C900,130 1050,20 1200,40 L1200,120 L0,120 Z" fill="rgba(0, 71, 147, 0.35)"/></svg>');
+        background-size: 1200px 200px;
+        animation: moveWave 8s linear infinite reverse;
+        z-index: 2;
+        opacity: 0.8;
+      }
+
+      /* Ефект мерехтіння водяних відблисків */
+      .glimmer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.15), transparent 60%);
+        animation: shimmer 4s ease-in-out infinite alternate;
+        z-index: 3;
+      }
+
+      @keyframes moveWave {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+
+      @keyframes shimmer {
+        0% { opacity: 0.3; transform: scale(0.98); }
+        100% { opacity: 0.8; transform: scale(1.02); }
+      }
+
+      /* Основна картка */
       .scratch-container {
         position: relative;
         width: 600px;
-        max-width: 100%;
+        max-width: 90%;
         user-select: none;
+        z-index: 10; /* Розміщуємо поверх океанського фону */
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        border-radius: 8px;
+        overflow: hidden;
       }
+
       /* UNDERNEATH: The Book Cover Image */
       .reveal-image {
         position: absolute;
@@ -31,6 +102,7 @@
         display: block;
         z-index: 1;
       }
+
       /* ON TOP: The Scratched Envelope Canvas */
       canvas {
         position: relative;
@@ -45,9 +117,17 @@
   </head>
   <body>
 
+    <!-- Морський анімований фон -->
+    <div class="ocean">
+      <div class="wave wave1"></div>
+      <div class="wave wave2"></div>
+      <div class="glimmer"></div>
+    </div>
+
+    <!-- Основна картка зі стиранням -->
     <div class="scratch-container">
       <!-- 1. Book Cover sits underneath -->
-      <img class="reveal-image" src="photo_2026-10-10_15-57-57.jpg" alt="Book Cover"[cite: 3]>
+      <img class="reveal-image" src="photo_2026-10-10_15-57-57.jpg" alt="Book Cover">
       
       <!-- 2. Envelope sits on top as the scratch layer -->
       <canvas id="scratchCanvas"></canvas>
@@ -58,7 +138,7 @@
       const ctx = canvas.getContext('2d');
 
       const fgImage = new Image();
-      fgImage.src = 'photo_2026-10-09_20-27-38.jpg'; // The envelope image on top[cite: 2]
+      fgImage.src = 'photo_2026-10-09_20-27-38.jpg'; // The envelope image on top
 
       fgImage.onload = function() {
         canvas.width = fgImage.naturalWidth;
